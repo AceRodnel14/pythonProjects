@@ -1,4 +1,4 @@
-# 02-02-2021
+# 02-03-2021
 from selenium import webdriver
 import os
 import sys
@@ -11,8 +11,9 @@ with open(str(sys.argv[1])) as oFile:
     
 for lnkElem in lnkList:
     driver = webdriver.Chrome (executable_path="./chromedriver")
+    driver.get(str(lnkElem))
+    vliveLnk = driver.find_element_by_xpath("//meta[@name='twitter:url']").get_attribute("content")
     driver.get(website)
-    vliveLnk = lnkElem
     urlBox = driver.find_element_by_id("vlive_url")
     urlBox.send_keys(str(vliveLnk))
     vliveBtn = driver.find_element_by_id("vlive_find_submit")
@@ -22,7 +23,7 @@ for lnkElem in lnkList:
     pubDate = str(driver.find_element_by_class_name("onair").text)
     
     infoFile = open('info.txt', 'a')
-    
+    infoFile.write("Source: " + vidTitle + "\n\n")
     infoFile.write("Title: " + vidTitle + "\n")
     infoFile.write("Uploaded on: " + pubDate + "\n")
 
@@ -48,6 +49,7 @@ for lnkElem in lnkList:
         subLink = str(links[subs])
         if lang == "English":
             os.system("wget -O " + vidId + "." + lang + ".srt " + subLink)
+            #time.sleep(30)
 
     dirName = pubDate[:10] + "_" + vidId
     os.system("mkdir -p " + dirName)
