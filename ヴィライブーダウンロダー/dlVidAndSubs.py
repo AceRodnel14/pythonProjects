@@ -23,7 +23,8 @@ for fileNo in range(1, len(sys.argv)):
         print("Idle for 1 minute. Please wait...")
         print("===============================================================================\n\n")
         time.sleep(60)
-        driver = webdriver.Chrome(executable_path="./chromedriver", options=options
+        driver = webdriver.Chrome(executable_path="./chromedriver", options=options)
+																	 
         driver.get(str(lnkElem))
         vliveLnk = driver.find_element_by_xpath("//meta[@name='twitter:url']").get_attribute("content")
         driver.get(website)
@@ -40,6 +41,9 @@ for fileNo in range(1, len(sys.argv)):
             infoFile.write("Source: " + vliveLnk + "\n\n")
             infoFile.write("Title: " + vidTitle + "\n")
             infoFile.write("Uploaded on: " + pubDate + "\n")
+														  
+																
+								  
         
             hrefs=driver.find_elements_by_tag_name("a")
             links = []
@@ -49,7 +53,9 @@ for fileNo in range(1, len(sys.argv)):
                 subInfo.append(str(lnk.get_attribute("onclick")))
 
             index = [links.index(i) for i in links if "res=" in i]
+							  
             vidId = str(links[int(index[0])]).split("/")[-2]
+																 
             infoFile.write("File Name: " + vidId + ".mp4\n")
             reso = str(links[int(index[0])]).split("?")[-1].split("=")[-1]
             infoFile.write("Resolution: " + reso + "\n")
@@ -64,16 +70,24 @@ for fileNo in range(1, len(sys.argv)):
 
             subIndex = [subInfo.index(i) for i in subInfo if "subtitles-srt-" in i]
             for subs in subIndex:
+																																							
+																				   
+			  
+															  
                 lang = subInfo[subs].split('"')[1].split("-")[-1]
+																										   
                 subLink = str(links[subs])
                 if lang == "English":
                     print("Found English subs. Downloading now...")
                     os.system("wget -O " + vidId + "." + lang + ".srt " + subLink + " -a logs.info")
+						   
             infoFile.close()
             dirName = pubDate[:10] + "_" + vidId
             os.system("mkdir -p " + dirName)
             os.system("mv info.txt " + dirName)
             os.system("mv " + vidId + ".* " + dirName)
+													  
+							   
         else:
             print("Video cannot be downloaded")
             errorFile = open('error.txt', 'a')
