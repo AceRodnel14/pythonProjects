@@ -1,4 +1,4 @@
-# 02-11-2021
+# 03-07-2021
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import os
@@ -10,6 +10,11 @@ options = Options()
 options.add_argument('--headless')
 for fileNo in range(1, len(sys.argv)):
     
+    print("===============================================================================")
+    print("Created folder for videos under " + str(sys.argv[fileNo]))
+    print("===============================================================================\n\n")
+    os.system("mkdir -p " + str(sys.argv[fileNo])[0:6])
+    
     with open(str(sys.argv[fileNo])) as oFile:
         lnkList = [line.rstrip() for line in oFile]
     
@@ -18,7 +23,7 @@ for fileNo in range(1, len(sys.argv)):
         print("Idle for 1 minute. Please wait...")
         print("===============================================================================\n\n")
         time.sleep(60)
-        driver = webdriver.Chrome(executable_path="./chromedriver", options=options)
+        driver = webdriver.Chrome(executable_path="./chromedriver", options=options
         driver.get(str(lnkElem))
         vliveLnk = driver.find_element_by_xpath("//meta[@name='twitter:url']").get_attribute("content")
         driver.get(website)
@@ -50,7 +55,7 @@ for fileNo in range(1, len(sys.argv)):
             infoFile.write("Resolution: " + reso + "\n")
         
             lnkIndex = curr + 1
-            print("video # " + str(lnkIndex) + " out of " + str(len(lnkList)) )
+            print("video # " + str(lnkIndex) + " out of " + str(len(lnkList)) + " from file " + str(sys.argv[fileNo]))
             print("saving " + vidId + ".mp4...")
             os.system('echo "=====' + vliveLnk + '=====" > logs.info')
         
@@ -78,14 +83,9 @@ for fileNo in range(1, len(sys.argv)):
         driver.close()
         driver.quit()
         print("\n")
-        
 
 
-
-
-
-
-
-
-
-
+    print("===============================================================================")
+    print("Moved files inside " + str(sys.argv[fileNo])[0:6] + " folder")
+    print("===============================================================================\n\n")
+    os.system("mv " + str(sys.argv[fileNo])[2:6] + "* " + str(sys.argv[fileNo])[0:6])
