@@ -1,3 +1,4 @@
+# 02-02-2021
 from selenium import webdriver
 import os
 import sys
@@ -54,3 +55,13 @@ for lnkElem in lnkList:
     os.system("mv " + vidId + ".* " + dirName)
     driver.close()
     time.sleep(60)
+
+
+
+
+
+
+
+
+
+
